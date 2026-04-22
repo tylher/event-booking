@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,4 +45,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                     exception.getMessage(), HttpStatus.NOT_FOUND, webRequest.getDescription(false), LocalDateTime.now()
             ),HttpStatus.NOT_FOUND);
         }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(
+            HttpMessageNotReadableException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request) {
+
+        return ResponseEntity.badRequest().body(
+                Map.of("error", "Date must be in format yyyy-MM-dd HH:mm:ss (e.g. 2026-05-01 14:30:00)")
+        );
+    }
 }

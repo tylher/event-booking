@@ -1,5 +1,6 @@
 package com.digicoretest.event_booking.model;
 
+import com.digicoretest.event_booking.enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,9 @@ public class Booking {
     private String attendeeEmail;
 
     private LocalDateTime bookedAt;
+
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
 
     @ManyToOne
     @JoinColumn(name = "eventId",referencedColumnName = "id")
